@@ -1,0 +1,66 @@
+<div>
+    <tabset>
+        <tab heading="STEP 1" active="tabs[0].active">
+            <form name="stepOneForm">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" placeholder="First Name" ng-model="personModel.firstName" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name" ng-model="personModel.lastName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" placeholder="Email" ng-model="personModel.email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" class="form-control" placeholder="Phone" ng-model="personModel.phone" required>
+                </div>
+            </form>
+            <div>
+                <button class="btn" ng-disabled="stepOneForm.$invalid" ng-click="next(1)">NEXT</button>
+            </div>
+        </tab>
+        <tab heading="STEP 2" active="tabs[1].active" disable="stepOneForm.$invalid">
+            <form name="stepTwoForm">
+                <div class="form-group">
+                    <label>Location</label>
+                    <select class="form-control" ng-model="personModel.location" required>
+                        <option value="Boston">Boston</option>
+                        <option value="New York">New York</option>
+                        <option value="Chicago">Chicago</option>
+                        <option value="San Francisco">San Francisco</option>
+                    </select>
+                </div>
+                <h4>Date Depart</h4>
+                <div class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="personModel.departDate" is-open="departFlag.opened" min-date="today" datepicker-options="dateOptions" ng-required="true" close-text="Close" ng-change="clearReturnDate()" />
+                    <span class="input-group-btn">
+	                <button type="button" class="btn btn-default" ng-click="departOpen($event)">
+	                	<i class="glyphicon glyphicon-calendar"></i>
+	                </button>
+              		</span>
+                </div>
+                <h4>Date Return</h4>
+                <div class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="personModel.returnDate" is-open="returnFlag.opened" min-date="personModel.departDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+	                <button type="button" class="btn btn-default" ng-click="returnOpen($event)">
+	                	<i class="glyphicon glyphicon-calendar"></i>
+	                </button>
+              		</span>
+                </div>
+                <div>
+                	<button class="btn" ng-disabled="stepTwoForm.$invalid" ng-click="next(2)">NEXT</button>
+                </div>
+            </form>
+        </tab>
+        <tab heading="STEP 3" active="tabs[2].active" disable="stepOneForm.$invalid || stepTwoForm.$invalid">
+        	<p>
+            	<a ng-href="{{personModel.email}}">{{personModel.firstName + ' ' + personModel.lastName}}({{personModel.phone}})</a> will depart for {{personModel.location}} on {{personModel.departDate | date}} and return on {{personModel.returnDate | date}}
+            </p>
+        </tab>
+    </tabset>
+</div>
